@@ -228,13 +228,13 @@ public class CameraController : MonoBehaviour
 
 	public void RotateLeft(float amount)
 	{
-		_rotation += amount * 15 * 0.3f;
+		_rotation += amount * 15 * 1f;
 
 	}
 
 	public void RotateRight(float amount)
 	{
-		_rotation += amount * 15 * 0.3f;
+		_rotation += amount * 15 * 1f;
 	}
 
 	public void StartRotateLeft()

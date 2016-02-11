@@ -705,17 +705,22 @@ public class HumanCharacter : Character
 	{
 		yield return new WaitForSeconds(waitTime);
 
-		if(AimTarget.localPosition.y < 0.5f && this.MyReference.CurrentWeapon != null)
+		if(this.MyReference.CurrentWeapon != null)
 		{
-			float climb = Mathf.Clamp(this.MyReference.CurrentWeapon.GetComponent<Gun>().GetRecoil() 
-				* (this.MyStatus.ArmFatigue / this.MyStatus.MaxArmFatigue), 0, 1);
-			AimTarget.localPosition += new Vector3(0, climb, 0);
+			if(AimTarget.localPosition.y < 0.5f)
+			{
+				float climb = Mathf.Clamp(this.MyReference.CurrentWeapon.GetComponent<Gun>().GetRecoil() 
+					* (this.MyStatus.ArmFatigue / this.MyStatus.MaxArmFatigue), 0, 1);
+				AimTarget.localPosition += new Vector3(0, climb, 0);
+			}
+			else
+			{
+				float maxSpread = Mathf.Clamp(this.MyReference.CurrentWeapon.GetComponent<Gun>().GetRecoil() 
+					* (this.MyStatus.ArmFatigue / this.MyStatus.MaxArmFatigue), 0, 0.5f) / 2;
+				AimTarget.localPosition = new Vector3(0, AimTarget.localPosition.y, 2);
+				AimTarget.localPosition += new Vector3(UnityEngine.Random.Range(-1 * maxSpread, maxSpread), 0, 0);
+			}
 		}
-
-		float maxSpread = Mathf.Clamp(this.MyReference.CurrentWeapon.GetComponent<Gun>().GetRecoil() 
-			* (this.MyStatus.ArmFatigue / this.MyStatus.MaxArmFatigue), 0, 0.5f) / 2;
-		AimTarget.localPosition = new Vector3(0, AimTarget.localPosition.y, 2);
-		AimTarget.localPosition += new Vector3(UnityEngine.Random.Range(-1 * maxSpread, maxSpread), 0, 0);
 
 	}
 

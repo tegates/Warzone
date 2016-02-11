@@ -211,6 +211,11 @@ public class PlayerControl
 				Vector3 cameraDir = (GameManager.Inst.CameraController.transform.position - c.AimPoint).normalized;
 				Vector3 aimPoint = c.AimPoint + cameraDir * aimHeight;
 
+				if(_aimedObject != null && _aimedObject.tag == "NPC")
+				{
+					aimPoint = c.MyAI.TargetingSystem.GetAimPointOnTarget(_aimedObject.GetComponent<Character>());
+				}
+
 				c.MyAI.BlackBoard.AimPoint = aimPoint;
 				Vector3 aimDir = aimPoint - c.MyReference.CurrentWeapon.transform.position;
 
