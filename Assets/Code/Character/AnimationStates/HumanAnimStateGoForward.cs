@@ -151,7 +151,7 @@ public class HumanAnimStateGoForward : HumanAnimStateBase
 
 		agent.SetDestination(this.ParentCharacter.Destination.Value);
 
-		if(this.ParentCharacter.UpperBodyState == HumanUpperBodyStates.Idle)
+		if(this.ParentCharacter.UpperBodyState == HumanUpperBodyStates.Idle || this.ParentCharacter.CurrentStance == HumanStances.Sprint)
 		{
 			
 			agent.updateRotation = false;
