@@ -27,14 +27,21 @@ public class AI : MonoBehaviour
 
 
 	
-	// Update is called once per frame
+	// Update is called from AI scheduler
 	public void PerFrameUpdate () 
+	{
+		Sensor.UpdatePerFrame();
+	}
+
+	//this update is called directly without going through scheduler
+	public void AlwaysPerFrameUpdate()
 	{
 		if(ControlType != AIControlType.Player)
 		{
 			TargetingSystem.UpdatePerFrame();
-			WeaponSystem.UpdatePerFrame();
+
 		}
+		WeaponSystem.UpdatePerFrame();
 	}
 
 	public void Initialize(Character character)

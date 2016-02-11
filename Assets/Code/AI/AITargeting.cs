@@ -36,9 +36,12 @@ public class AITargeting
 
 			Vector3 gunPos = _parentCharacter.MyReference.CurrentWeapon.transform.position;
 			_parentCharacter.AimTargetRoot.position = gunPos;
-			Vector3 aimDir = GetAimPointOnTarget(currentTarget) - _parentCharacter.MyReference.CurrentWeapon.transform.position;
+			_parentCharacter.MyAI.BlackBoard.AimPoint = GetAimPointOnTarget(currentTarget);
+			Vector3 aimDir = _parentCharacter.MyAI.BlackBoard.AimPoint - _parentCharacter.MyReference.CurrentWeapon.transform.position;
 			Quaternion rotation = Quaternion.LookRotation(aimDir);
 			_parentCharacter.AimTargetRoot.transform.rotation = Quaternion.Lerp(_parentCharacter.AimTargetRoot.transform.rotation, rotation, Time.deltaTime * 9);
+
+
 		}
 		else
 		{
@@ -69,6 +72,8 @@ public class AITargeting
 
 			Quaternion rotation = Quaternion.LookRotation(aimDir);
 			_parentCharacter.AimTargetRoot.transform.rotation = Quaternion.Lerp(_parentCharacter.AimTargetRoot.transform.rotation, rotation, Time.deltaTime * 6);
+
+			_parentCharacter.MyAI.BlackBoard.AimPoint = _parentCharacter.AimTarget.position;
 
 			Vector3 lookPos = _parentCharacter.transform.position + aimDir * 2 + new Vector3(0, aimHeight, 0);
 			_parentCharacter.LookTarget.transform.position = Vector3.Lerp(_parentCharacter.LookTarget.transform.position, lookPos, 8 * Time.deltaTime);

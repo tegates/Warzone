@@ -3,6 +3,8 @@ using System.Collections;
 
 public class BlackBoard
 {
+	public Vector3 AimPoint;
+
 	private Vector3 _navTarget;
 	public bool IsNavTargetSet;
 	public Vector3 NavTarget

@@ -36,6 +36,7 @@ public class AIWeapon
 			_parentCharacter.MyReference.CurrentWeapon.GetComponent<Gun>().TriggerRelease();
 		}
 		AIWeaponState = AIWeaponStates.None;
+		_triggerState = AIWeaponTriggerState.Released;
 	}
 
 
@@ -45,18 +46,19 @@ public class AIWeapon
 
 	private void HandleFiringRangedWeapon()
 	{
-		
+		/*
 		if(_parentCharacter.MyAI.BlackBoard.TargetEnemy == null)
 		{
 			StopFiringRangedWeapon();
 			return;
 		}
+		*/
 
 		float aimAngleThreshold = 5;
-		Vector3 aimPoint = _parentCharacter.MyAI.TargetingSystem.GetAimPointOnTarget(_parentCharacter.MyAI.BlackBoard.TargetEnemy);
+		Vector3 aimPoint = _parentCharacter.MyAI.BlackBoard.AimPoint;
 		float aimAngle = Vector3.Angle(aimPoint - _parentCharacter.MyReference.CurrentWeapon.transform.position, _parentCharacter.MyReference.CurrentWeapon.transform.forward);
-			
-		if(aimAngle > aimAngleThreshold / 5 && _triggerState == AIWeaponTriggerState.WaitForRecoil)
+		Debug.Log(aimAngle + " " + _triggerState);
+		if(aimAngle > aimAngleThreshold / 4 && _triggerState == AIWeaponTriggerState.WaitForRecoil)
 		{
 
 		}
@@ -84,4 +86,5 @@ public enum AIWeaponTriggerState
 {
 	WaitForRecoil,
 	Pulled,
+	Released,
 }

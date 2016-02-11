@@ -41,6 +41,8 @@ public class HumanCharacter : Character
 		UpdateDestBodyAngle();
 
 		UpdateFatigue();
+
+		MyAI.AlwaysPerFrameUpdate();
 	}
 
 	
