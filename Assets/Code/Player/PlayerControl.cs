@@ -456,16 +456,15 @@ public class PlayerControl
 		{
 			return;
 		}
-		SelectedPC.MyAI.WeaponSystem.StartFiringRangedWeapon();
-		//SelectedPC.GetComponent<HumanCharacter>().SendCommand(HumanCharCommands.PullTrigger);
+		//SelectedPC.MyAI.WeaponSystem.StartFiringRangedWeapon();
+		SelectedPC.GetComponent<HumanCharacter>().SendCommand(HumanCharCommands.PullTrigger);
 	}
 
 	public void OnWeaponReleaseTrigger()
 	{
-		SelectedPC.MyAI.WeaponSystem.StopFiringRangedWeapon();
-		//HumanCharacter character = SelectedPC.GetComponent<HumanCharacter>();
-
-		//character.SendCommand(HumanCharCommands.ReleaseTrigger);
+		//SelectedPC.MyAI.WeaponSystem.StopFiringRangedWeapon();
+		HumanCharacter character = SelectedPC.GetComponent<HumanCharacter>();
+		character.SendCommand(HumanCharCommands.ReleaseTrigger);
 
 	}
 
