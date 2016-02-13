@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class AISensor 
 {
+	public float PersonalThreatThreshold;
 
 	private Character _parentCharacter;
 	private WorkingMemory _workingMemory;
@@ -17,6 +18,7 @@ public class AISensor
 		_workingMemory = _parentCharacter.MyAI.WorkingMemory;
 		_parentCharacter.MyEventHandler.OnOneSecondTimer -= UpdatePerSecond;
 		_parentCharacter.MyEventHandler.OnOneSecondTimer += UpdatePerSecond;
+		PersonalThreatThreshold = 0.6f;
 	}
 
 	public void UpdatePerFrame()
@@ -77,7 +79,7 @@ public class AISensor
 				{
 					//didn't find it in working memory, create a new fact
 					fact = _workingMemory.AddFact(FactType.KnownEnemy, c, c.transform.position, 1, 0.01f);
-					fact.ThreatLevel = 0.8f;
+					fact.ThreatLevel = 0.4f;
 					fact.ThreatDropRate = 0.005f;
 				}
 				else
@@ -86,8 +88,12 @@ public class AISensor
 					fact.Confidence = 1;
 				}
 
-
-				CheckPersonalThreat(c);
+				//if we consider this character is posing personal threat then his threat level is maxed
+				float personalThreat = CheckPersonalThreat(c);
+				if(personalThreat >= PersonalThreatThreshold)
+				{
+					fact.ThreatLevel = 1;
+				}
 			}
 			else
 			{
@@ -141,7 +147,7 @@ public class AISensor
 		return characters;
 	}
 
-	private void CheckPersonalThreat(Character c)
+	private float CheckPersonalThreat(Character c)
 	{
 		//check if enemy is aiming at me. Add personal threat memory.
 		if(c.MyReference.CurrentWeapon != null)
@@ -151,10 +157,29 @@ public class AISensor
 				float aimAngle = Vector3.Angle(_parentCharacter.transform.position - c.transform.position, c.MyReference.CurrentWeapon.transform.forward);
 				if(aimAngle < 15)
 				{
-					_workingMemory.AddFact(FactType.PersonalThreat, c, c.transform.position, 0.6f, 0.1f);
+					WorkingMemoryFact fact = _workingMemory.FindExistingFact(FactType.PersonalThreat, c);
+					if(fact == null)
+					{
+						fact = _workingMemory.AddFact(FactType.PersonalThreat, c, c.transform.position, PersonalThreatThreshold, 0.1f);
+					}
+					else
+					{
+						fact.Confidence = PersonalThreatThreshold;
+						fact.LastKnownPos = c.transform.position;
+					}
+
+					_parentCharacter.MyAI.BlackBoard.AvgPersonalThreatDir = (fact.LastKnownPos - _parentCharacter.transform.position).normalized;
+					if(PersonalThreatThreshold > _parentCharacter.MyAI.BlackBoard.HighestPersonalThreat)
+					{
+						_parentCharacter.MyAI.BlackBoard.HighestPersonalThreat = PersonalThreatThreshold;
+					}
+
+					return PersonalThreatThreshold;
 				}
 			}
 
 		}
+
+		return 0;
 	}
 }

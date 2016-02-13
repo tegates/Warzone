@@ -178,7 +178,7 @@ public class PlayerControl
 
 
 		float aimHeight = 0f;
-		/*
+
 		if(_aimedObject != null && _aimedObject.tag == "GroundOrFloor")
 		{
 			if(c.CurrentStance == HumanStances.Crouch || c.CurrentStance == HumanStances.CrouchRun)
@@ -194,7 +194,7 @@ public class PlayerControl
 		{
 			aimHeight = 0;
 		}
-		*/
+
 
 
 		if(Mathf.Abs(c.AimPoint.y - c.transform.position.y) > 0.5f)
@@ -210,12 +210,12 @@ public class PlayerControl
 				c.AimTargetRoot.position = c.MyReference.CurrentWeapon.transform.position;
 				Vector3 cameraDir = (GameManager.Inst.CameraController.transform.position - c.AimPoint).normalized;
 				Vector3 aimPoint = c.AimPoint + cameraDir * aimHeight;
-
+				/*
 				if(_aimedObject != null && _aimedObject.tag == "NPC")
 				{
 					aimPoint = c.MyAI.TargetingSystem.GetAimPointOnTarget(_aimedObject.GetComponent<Character>());
 				}
-
+				*/
 				c.MyAI.BlackBoard.AimPoint = aimPoint;
 				Vector3 aimDir = aimPoint - c.MyReference.CurrentWeapon.transform.position;
 
@@ -456,15 +456,15 @@ public class PlayerControl
 		{
 			return;
 		}
-		//SelectedPC.MyAI.WeaponSystem.StartFiringRangedWeapon();
-		SelectedPC.GetComponent<HumanCharacter>().SendCommand(HumanCharCommands.PullTrigger);
+		SelectedPC.MyAI.WeaponSystem.StartFiringRangedWeapon();
+		//SelectedPC.GetComponent<HumanCharacter>().SendCommand(HumanCharCommands.PullTrigger);
 	}
 
 	public void OnWeaponReleaseTrigger()
 	{
-		//SelectedPC.MyAI.WeaponSystem.StopFiringRangedWeapon();
-		HumanCharacter character = SelectedPC.GetComponent<HumanCharacter>();
-		character.SendCommand(HumanCharCommands.ReleaseTrigger);
+		SelectedPC.MyAI.WeaponSystem.StopFiringRangedWeapon();
+		//HumanCharacter character = SelectedPC.GetComponent<HumanCharacter>();
+		//character.SendCommand(HumanCharCommands.ReleaseTrigger);
 
 	}
 

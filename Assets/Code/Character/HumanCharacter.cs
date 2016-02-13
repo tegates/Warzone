@@ -707,7 +707,7 @@ public class HumanCharacter : Character
 
 		if(this.MyReference.CurrentWeapon != null)
 		{
-			if(AimTarget.localPosition.y < 0.5f)
+			if(AimTarget.localPosition.y < 0.1f)
 			{
 				float climb = Mathf.Clamp(this.MyReference.CurrentWeapon.GetComponent<Gun>().GetRecoil() 
 					* (this.MyStatus.ArmFatigue / this.MyStatus.MaxArmFatigue), 0, 1);

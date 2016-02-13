@@ -26,22 +26,37 @@ public class WorkingMemory
 	{
 		//every second we will reduce the confidence value of each fact by reduce rate until
 		//zero, and then remove (forget) it
+		//also update personal threat on the blackboard with highest number
+		_parentCharacter.MyAI.BlackBoard.HighestPersonalThreat = 0;
+		Vector3 threatDir = Vector3.zero;
+
 		HashSet<WorkingMemoryFact> copy = new HashSet<WorkingMemoryFact>(Facts);
 		foreach(WorkingMemoryFact fact in copy)
 		{
+			if(fact.FactType == FactType.KnownEnemy || fact.FactType == FactType.KnownNeutral || fact.FactType == FactType.KnownBeast)
+			{
+				fact.IsHittable = _parentCharacter.MyAI.Sensor.GetTargetHittability((Character)fact.Target);
+			}
+
+			if(fact.FactType == FactType.PersonalThreat)
+			{
+				if(fact.Confidence >= _parentCharacter.MyAI.BlackBoard.HighestPersonalThreat)
+				{
+					_parentCharacter.MyAI.BlackBoard.HighestPersonalThreat = fact.Confidence;
+				}
+				threatDir = (threatDir + (fact.LastKnownPos - _parentCharacter.transform.position).normalized).normalized;
+			}
+
 			fact.Confidence -= fact.ConfidenceDropRate;
 			if(fact.Confidence <= 0)
 			{
 				Debug.Log("Working memory removing fact of " + fact.FactType + " confidence " + fact.Confidence);
 				RemoveFact(fact.FactType, fact.Target);
 			}
-
-			if(fact.FactType == FactType.KnownEnemy || fact.FactType == FactType.KnownNeutral || fact.FactType == FactType.KnownBeast)
-			{
-				fact.IsHittable = _parentCharacter.MyAI.Sensor.GetTargetHittability((Character)fact.Target);
-			}
-
 		}
+
+		//update personal threat dir
+		_parentCharacter.MyAI.BlackBoard.AvgPersonalThreatDir = threatDir;
 	}
 
 	public WorkingMemoryFact AddFact(FactType type, object target, Vector3 lastKnownPos, float confidence, float dropRate)
@@ -55,8 +70,7 @@ public class WorkingMemory
 
 		return fact;
 	}
-
-
+		
 	public void RemoveFact(FactType type, object target)
 	{
 		WorkingMemoryFact fact = null;

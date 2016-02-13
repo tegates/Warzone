@@ -181,7 +181,7 @@ public class AI : MonoBehaviour
 			return false;
 		}
 
-		if(state.Name == "IsThereInvisibleEnemy")
+		else if(state.Name == "IsThereInvisibleEnemy")
 		{
 			bool result = (_parentCharacter.MyAI.BlackBoard.InvisibleEnemy != null);
 			SetCurrentWorldState(state, result);
@@ -189,7 +189,7 @@ public class AI : MonoBehaviour
 			return result;
 		}
 
-		if(state.Name == "IsTargetAThreat")
+		else if(state.Name == "IsTargetAThreat")
 		{
 			//TO DO:
 			//if target is not in sight, and if last known pos is inside area, return true;
@@ -229,13 +229,14 @@ public class AI : MonoBehaviour
 
 		}
 
-		if(state.Name == "IsTherePersonalThreat")
+		else if(state.Name == "IsTherePersonalThreat")
 		{
-			SetCurrentWorldState(state, false);
+			bool result = BlackBoard.HighestPersonalThreat > 0;
+			SetCurrentWorldState(state, result);
 			return false;
 		}
 
-		if(state.Name == "IsRangedWeaponEquipped")
+		else if(state.Name == "IsRangedWeaponEquipped")
 		{
 			if(BlackBoard.EquippedWeapon != null)
 			{
@@ -249,7 +250,7 @@ public class AI : MonoBehaviour
 			}
 		}
 
-		if(state.Name == "IsThreatInSight")
+		else if(state.Name == "IsThreatInSight")
 		{
 			List<WorkingMemoryFact> knownEnemies = WorkingMemory.FindExistingFactOfType(FactType.KnownEnemy);
 			foreach(WorkingMemoryFact fact in knownEnemies)
@@ -265,7 +266,7 @@ public class AI : MonoBehaviour
 			return false;
 		}
 
-		if(state.Name == "IsAmmoAvailable")
+		else if(state.Name == "IsAmmoAvailable")
 		{
 			SetCurrentWorldState(state, true);
 			return true;

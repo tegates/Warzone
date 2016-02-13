@@ -54,20 +54,22 @@ public class AIWeapon
 		}
 		*/
 
-		float aimAngleThreshold = 5;
+		float aimAngleThreshold = 20;
 		Vector3 aimPoint = _parentCharacter.MyAI.BlackBoard.AimPoint;
 		float aimAngle = Vector3.Angle(aimPoint - _parentCharacter.MyReference.CurrentWeapon.transform.position, _parentCharacter.MyReference.CurrentWeapon.transform.forward);
-		//Debug.Log(aimAngle + " " + _triggerState);
-		if(aimAngle > aimAngleThreshold / 4 && _triggerState == AIWeaponTriggerState.WaitForRecoil)
+		float climb = _parentCharacter.AimTarget.localPosition.y;
+		bool aimReady = _parentCharacter.MyAI.ControlType == AIControlType.Player ? true : (aimAngle < aimAngleThreshold);
+
+		if(climb >= 0.05f && _triggerState == AIWeaponTriggerState.WaitForRecoil)
 		{
 
 		}
-		else if(aimAngle < aimAngleThreshold * 3 && _triggerState != AIWeaponTriggerState.Pulled)
+		else if(climb < 0.05f && aimReady && _triggerState != AIWeaponTriggerState.Pulled)
 		{
 			_parentCharacter.MyReference.CurrentWeapon.GetComponent<Gun>().TriggerPull();
 			_triggerState = AIWeaponTriggerState.Pulled;
 		}
-		else if(aimAngle >= aimAngleThreshold && _triggerState == AIWeaponTriggerState.Pulled)
+		else if(climb >= 0.2f && _triggerState == AIWeaponTriggerState.Pulled)
 		{
 			_parentCharacter.MyReference.CurrentWeapon.GetComponent<Gun>().TriggerRelease();
 			_triggerState = AIWeaponTriggerState.WaitForRecoil;

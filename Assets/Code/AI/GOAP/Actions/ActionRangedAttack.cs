@@ -108,7 +108,20 @@ public class ActionRangedAttack : GoapAction
 			}
 		}
 
-
+		//if highest personal threat is high then shuffle left/right
+		float threat = ParentCharacter.MyAI.BlackBoard.HighestPersonalThreat;
+		Vector3 threatDir = ParentCharacter.MyAI.BlackBoard.AvgPersonalThreatDir;
+		if(threat >= 0.6f && threat < 1f)
+		{
+			int rand = UnityEngine.Random.Range(0, 100);
+			int leftRight = (rand >= 50) ? -1 : 1;
+			Vector3 shuffleCenter = ParentCharacter.transform.position + Vector3.Cross(threatDir, Vector3.up) * 3 * leftRight;
+			Vector3 shuffleDest = Vector3.zero;
+			AI.RandomPoint(shuffleCenter, new Vector3(2, 2, 2), out shuffleDest);
+			ParentCharacter.MyAI.BlackBoard.NavTarget = shuffleDest;
+			ParentCharacter.Destination = ParentCharacter.MyAI.BlackBoard.NavTarget;
+			ParentCharacter.SendCommand(HumanCharCommands.GoToPosition);
+		}
 
 		if(CheckActionCompletion())
 		{

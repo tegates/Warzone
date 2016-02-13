@@ -73,7 +73,7 @@ public class HumanAnimStateSneakForward : HumanAnimStateBase
 		this.ParentCharacter.MyAnimator.SetFloat("VSpeed", 0);
 		this.ParentCharacter.MyAnimator.SetBool("IsSneaking", true);
 		this.ParentCharacter.MyHeadIK.solver.bodyWeight = 0.0f;
-		this.ParentCharacter.MyHeadIK.solver.headWeight = 0.75f;
+		this.ParentCharacter.MyHeadIK.solver.headWeight = 0.5f;
 		_vSpeed = 0;
 	}
 	

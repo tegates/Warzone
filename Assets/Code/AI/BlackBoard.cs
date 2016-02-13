@@ -32,6 +32,9 @@ public class BlackBoard
 		set { _invisibleEnemy = value; }
 	}
 
+	public float HighestPersonalThreat;
+	public Vector3 AvgPersonalThreatDir;
+
 	public bool HasPatrolInfo;
 	private Vector3 _patrolLoc;
 	public Vector3 PatrolLoc

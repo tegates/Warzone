@@ -48,7 +48,7 @@ public class CameraController : MonoBehaviour
 			HumanCharacter pc = GameManager.Inst.PlayerControl.SelectedPC;
 			Vector3 cameraFacing = Camera.main.transform.forward;
 
-			Vector3 cameraPos = pc.transform.position - cameraFacing * 35;
+			Vector3 cameraPos = pc.transform.position - cameraFacing * 27;
 
 
 			/*
@@ -68,7 +68,7 @@ public class CameraController : MonoBehaviour
 
 			//panning distance is 0 when aimDir magnitude is less than 2
 			//when greater than 2, slowly increase the distance up to say 7
-			float maxPanDist = 5;
+			float maxPanDist = 6;
 			float panDist = 0;
 
 			float maxMousePos = Screen.height * 0.5f;
