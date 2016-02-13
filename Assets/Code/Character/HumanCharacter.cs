@@ -410,6 +410,14 @@ public class HumanCharacter : Character
 
 	}
 
+	public override void SendDamage ()
+	{
+		if(MyAI.ControlType != AIControlType.Player)
+		{
+			MyAI.OnImportantEvent();
+		}
+	}
+
 
 	public WeaponAnimType GetCurrentAnimWeapon()
 	{

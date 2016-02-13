@@ -31,6 +31,7 @@ public abstract class Character : MonoBehaviour
 	public Transform LookTarget;
 
 	public abstract void SendCommand(HumanCharCommands command);
+	public abstract void SendDamage();
 
 	/*
 	public void HandleNavAgentMovement()

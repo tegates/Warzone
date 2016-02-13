@@ -38,6 +38,7 @@ public class ActionRangedAttack : GoapAction
 
 	public override bool CheckActionCompletion()
 	{
+			
 		if(!ParentCharacter.MyAI.BlackBoard.IsTargetEnemyHittable)
 		{
 			return true;

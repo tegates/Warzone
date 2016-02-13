@@ -27,13 +27,23 @@ public class BulletTrail : MonoBehaviour
 		{
 			Vector3 pos = CollisionEvents[i].intersection;
 			Vector3 normal = CollisionEvents[i].normal;
-			GameObject hole = GameManager.Inst.FXManager.LoadFX("Bullet_Hole_Concrete", 30, FXType.BulletHole);
-			hole.transform.position = pos + normal * 0.02f;
-			hole.transform.rotation = Quaternion.LookRotation(normal);
-
-			GameObject impact = GameManager.Inst.FXManager.LoadFX("WFX_BImpact SoftBody", 0, FXType.BulletImpact);
-			impact.transform.position = pos;
-			impact.transform.rotation = Quaternion.LookRotation(normal);
+			if(other.isStatic)
+			{
+				GameObject hole = GameManager.Inst.FXManager.LoadFX("Bullet_Hole_Concrete", 30, FXType.BulletHole);
+				hole.transform.position = pos + normal * 0.02f;
+				hole.transform.rotation = Quaternion.LookRotation(normal);
+			}
+			Character hitCharacter = other.GetComponent<Character>();
+			if(hitCharacter != null)
+			{
+				hitCharacter.SendDamage();
+			}
+			else
+			{
+				GameObject impact = GameManager.Inst.FXManager.LoadFX("WFX_BImpact SoftBody", 0, FXType.BulletImpact);
+				impact.transform.position = pos;
+				impact.transform.rotation = Quaternion.LookRotation(normal);
+			}
 
 			if (rb) 
 			{

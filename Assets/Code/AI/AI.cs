@@ -382,8 +382,10 @@ public class AI : MonoBehaviour
 
 		if(_currentGoal == null)
 		{
-			//Debug.Log("no current goal, getting a new one");
+			Debug.Log("no current goal, getting a new one");
 			_currentGoal = GetNextGoal();
+
+			Debug.Log("found new goal " + _currentGoal.Name);
 			_currentAction = null;
 		}
 
@@ -441,7 +443,7 @@ public class AI : MonoBehaviour
 
 	public static bool RandomPoint(Vector3 center, Vector3 range, out Vector3 result) 
 	{
-		for (int i = 0; i < 30; i++) 
+		for (int i = 0; i < 10; i++) 
 		{
 			Vector3 randomPoint = new Vector3(UnityEngine.Random.Range(center.x - range.x, center.x + range.x),
 												UnityEngine.Random.Range(center.y - range.y, center.y + range.y),
